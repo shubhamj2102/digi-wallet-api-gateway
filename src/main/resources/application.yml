@@ -1,0 +1,49 @@
+server:
+  port: 8080 # The entry point for your entire system
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        # 1. User Service (Authentication)
+        - id: user-service
+          uri: http://localhost:8088 # Direct URL
+          predicates:
+            - Path=/api/v1/auth/**, /api/v1/users/**, /api/v1/admin/**
+
+        # 2. Naxi Chat Service
+        - id: Naxi-chat-service
+          uri: http://localhost:8085 # Direct URL
+          predicates:
+            - Path=/api/v1/naxi/**
+#          filters:
+#            - name: RequestRateLimiter # Example: Prevent spamming
+#              args:
+#                redis-rate-limiter.replenishRate: 10
+#                redis-rate-limiter.burstCapacity: 20
+#                key-resolver: "#{@userKeyResolver}" # Must match the bean name above
+
+        # 3. Pulse Service
+        - id: pulse-service
+          uri: http://localhost:8087 # Direct URL
+          predicates:
+            - Path=/api/v1/pulse/**
+
+        # 4. Media Service
+        - id: onboarding-media-service
+          uri: http://localhost:8086 # Direct URL
+          predicates:
+            - Path=/api/v1/spotlight/**
+
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"  # front end port
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            allowCredentials: true
+
+jwt:
+  secret: ${JWT_SECRET_KEY}
