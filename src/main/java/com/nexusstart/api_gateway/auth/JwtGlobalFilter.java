@@ -55,7 +55,11 @@ public class JwtGlobalFilter implements GlobalFilter, Ordered {
     }
 
     private boolean isPublicUrl(String path) {
-        return path.contains("/api/v1/auth/login") || path.contains("/api/v1/auth/register");
+        return path.contains("/api/v1/auth/login") ||
+                path.contains("/api/v1/auth/register") ||
+                path.contains("/api/v1/auth/forgot-password") ||
+                path.contains("/api/v1/auth/existing-employee/**");
+
     }
 
     private Mono<Void> onError(ServerWebExchange exchange, String err, HttpStatus status) {
