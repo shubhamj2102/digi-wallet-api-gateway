@@ -1,14 +1,6 @@
 server:
   port: 8080 # The entry point for your entire system
 
-springdoc:
-  swagger-ui:
-    # This enables the dropdown menu in Swagger UI
-    urls:
-      - name: "User Service"
-        url: "/api/v1/auth/v3/api-docs" # The path that routes to your User Service
-    path: /swagger-ui.html
-
 spring:
   application:
     name: api-gateway
