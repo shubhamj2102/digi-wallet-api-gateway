@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.nexusstart</groupId>
-	<artifactId>api-gateway</artifactId>
+	<artifactId>digi-wallet-api-gateway</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>api-gateway</name>
 	<description>A gateway which routes the request towards the micro-services</description>

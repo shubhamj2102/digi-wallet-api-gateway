@@ -55,15 +55,15 @@ public class JwtGlobalFilter implements GlobalFilter, Ordered {
         String userId = safe(jwtService.extractClaim(token, claims -> claims.get("userId", String.class)));
         String userEmail  = safe(jwtService.extractEmail(token));
         String userRole   = safe(jwtService.extractRole(token));
-        String userStatus = safe(jwtService.extractClaim(token, claims -> claims.get("status", String.class))); // e.g., AwaitingOffer, Joined
+       // String userStatus = safe(jwtService.extractClaim(token, claims -> claims.get("status", String.class))); // e.g., AwaitingOffer, Joined
 
         // 5) (Optional but recommended) Remove any spoofed incoming X-User-* headers
         ServerHttpRequest.Builder builder = request.mutate()
                 // 6) Add trusted identity headers for downstream services
                 .header("X-User-Id", userId)
                 .header("X-User-Email", userEmail)
-                .header("X-User-Role", userRole)
-                .header("X-User-Status", userStatus);
+                .header("X-User-Role", userRole);
+
 
         return chain.filter(exchange.mutate().request(builder.build()).build());
     }
@@ -71,10 +71,10 @@ public class JwtGlobalFilter implements GlobalFilter, Ordered {
     private boolean isPublicUrl(String path) {
         // Keep ONLY your public auth endpoints here
         if (path == null) return false;
-        return path.startsWith("/api/v1/auth/login")
-                || path.startsWith("/api/v1/auth/register")
-                || path.startsWith("/api/v1/auth/forgot-password")
-                || path.startsWith("/api/v1/auth/existing-employee");
+        return path.startsWith("/api/v1/auth");
+//                || path.startsWith("/api/v1/auth/register")
+//                || path.startsWith("/api/v1/auth/forgot-password")
+//                || path.startsWith("/api/v1/auth/existing-employee");
     }
 
     private String safe(String v) {
